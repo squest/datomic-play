@@ -40,7 +40,7 @@
                            :closure-warnings {:non-standard-jsdoc :off},
                            :output-to "resources/public/js/app.js",
                            :output-wrapper false,
-                           :optimizations :advanced},
+                           :optimizations :simple},
                 :id "prod"}]}
   :ring {:handler teta.handler/app,
          :init teta.handler/init,
