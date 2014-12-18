@@ -6,17 +6,37 @@
 	[id]
 	(.getElementById js/document id))
 
+(def anim-duration 2000)
+
+(defn trans-content
+	[domelmt]
+	(.fadeIn js/Jacked (selid domelmt) {:duration anim-duration}))
+
 (def soal (re/atom {}))
+
+(declare get-soal)
+
+(defn jawaban-bener
+	[]
+	[:div.zpanel3
+	 [:h4 "Congratulations!! Jawaban lau bener broh!!"]])
 
 (defn post-answer-callback
 	[resp]
-	(js/alert (str (resp :user) " " (resp :message))))
+	(let [{:keys [message stat]} resp]
+		(if stat
+			(do (re/render-component [jawaban-bener]
+															 (selid "main"))
+					(trans-content "main")
+					(js/setTimeout #(get-soal) 3000))
+			(js/alert message))))
 
 (defn post-answer
-	[st]
+	[st er]
 	(POST "/jawab"
 				{:params {:user "dodol"
-									:answer st}
+									:answer st
+									:yangbener er}
 				 :handler post-answer-callback}))
 
 (defn soal-content
@@ -32,7 +52,7 @@
 																			{:type     "button"
 																			 :value %
 																			 :on-click (fn []
-																									 (post-answer %))}
+																									 (post-answer % (@soal :answer)))}
 																			[:br])
 														 (@soal :options))))]])))
 
@@ -44,7 +64,8 @@
 	[resp]
 	(do (reset! soal resp)
 			(re/render-component [soal-content]
-													 (selid "main"))))
+													 (selid "main"))
+			(trans-content "main")))
 
 (defn get-soal
 	[]

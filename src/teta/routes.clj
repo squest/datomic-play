@@ -12,9 +12,13 @@
 
 (defn get-soal
   []
-  {:soal "Coba ya kerjain yang satu ini $ \\lim\\limits_{x->\\infty} x^2 $"
-   :options ["well" "will" "wooll" "welllo" "book"]
-   :answer "well"})
+  (let [choices [{:soal    "Coba ya kerjain yang satu ini $ \\lim\\limits_{x->\\infty} x^2 $"
+                  :options ["well" "will" "wooll" "welllo" "book"]
+                  :answer  "well"}
+                 {:soal    "Coba ya kerjain yang satu ini"
+                  :options ["well" "will" "wooll" "welllo" "book"]
+                  :answer  "wooll"}]]
+    (rand-nth choices)))
 
 (defroutes home
   (GET "/" req
@@ -22,7 +26,7 @@
   (GET "/soal" req
        (resp/edn (get-soal)))
   (POST "/jawab" req
-        (let [{:keys [answer user]} (:params req)]
-          (if (= answer (:answer (get-soal)))
-            (resp/edn {:user user :message "Pinteerr"})
-            (resp/edn {:user user :message "ANJING GUOBLOAK SIA!!"})))))
+        (let [{:keys [answer user yangbener]} (:params req)]
+          (if (= answer yangbener)
+            (resp/edn {:user user :message "Pinteerr" :stat true})
+            (resp/edn {:user user :message "ANJING GUOBLOAK SIA!!" :stat false})))))
