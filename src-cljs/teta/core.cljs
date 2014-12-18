@@ -6,9 +6,22 @@
 	[id]
 	(.getElementById js/document id))
 
+
+
 (defn choice-form
 	[]
-	[:h1 "Welldone"])
+	(let [cheko (re/atom false)]
+		(fn []
+			[:form
+			 [:fieldset.zpanel3
+				[:legend "Woi"]
+				[:br]
+				[:input {:type    "radio"
+								 :name    "this"
+								 :value   "welldone"
+								 :checked @cheko
+								 :on-change #(reset! cheko (not @cheko))}
+				 " Wellthen"]]])))
 
 (defn start
 	[]
