@@ -11,6 +11,9 @@
 				processEscapes: false
 			}
 		};
+		var reloadMathJax = function reloadMathjax () {
+		    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+		};
 	</script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
     </script>

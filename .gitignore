@@ -7,3 +7,5 @@ config.edn
 .nrepl-port
 .lein-env
 *.log
+/resources/nodejs/node_modules
+/resources/questdb
